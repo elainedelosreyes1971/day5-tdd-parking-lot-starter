@@ -1,5 +1,7 @@
 package com.parkinglot;
 
+import com.parkinglot.exceptions.NoAvailablePositionException;
+import com.parkinglot.exceptions.UnrecognizedTicketException;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -57,15 +59,47 @@ public class ParkingLotTest {
         ParkingLot parkingLot = new ParkingLot();
         Car car = new Car();
         ParkingTicket parkingTicket = parkingLot.park(car);
-        Car car1 = new Car();
-        ParkingTicket parkingTicket1 = parkingLot.park(car1);
 
         //when
-        Car fetchedCar = parkingLot.fetch(parkingTicket1);
-        Car fetchedCar1 = parkingLot.fetch(parkingTicket);
+        parkingLot.fetch(parkingTicket);
 
         //then
-        assertNotEquals(car, fetchedCar);
-        assertNotEquals(car1, fetchedCar1);
+        UnrecognizedTicketException unrecognizedTicketException = assertThrows(UnrecognizedTicketException.class, () -> {
+            parkingLot.fetch(parkingTicket);
+        });
+        assertEquals("Unrecognized parking ticket.", unrecognizedTicketException.getMessage());
+    }
+
+    @Test
+    void should_return_null_when_fetch_given_used_parking_lot_ticket() {
+        //given
+        ParkingLot parkingLot = new ParkingLot();
+        Car car = new Car();
+        ParkingTicket usedTicket = parkingLot.park(car);
+
+        //when
+        parkingLot.fetch(usedTicket);
+
+        //then
+        UnrecognizedTicketException unrecognizedTicketException = assertThrows(UnrecognizedTicketException.class, () -> {
+            parkingLot.fetch(usedTicket);
+        });
+        assertEquals("Unrecognized parking ticket.", unrecognizedTicketException.getMessage());
+    }
+
+    @Test
+    void should_return_null_when_fetch_given_parking_lot_without_capacity() {
+        //given
+        ParkingLot parkingLot = new ParkingLot(1);
+        Car car = new Car();
+
+        //when
+        parkingLot.park(car);
+
+        //then
+        NoAvailablePositionException noAvailablePositionException = assertThrows(NoAvailablePositionException.class, () -> {
+            parkingLot.park(car);
+        });
+        assertEquals("No available position.", noAvailablePositionException.getMessage());
     }
 }
