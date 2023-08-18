@@ -1,7 +1,15 @@
 package com.parkinglot;
 
 public class ParkingLot {
+
+    private Car car;
+
     public ParkingTicket park(Car car) {
-        return new ParkingTicket(car);
+        this.car = car;
+        return new ParkingTicket();
+    }
+
+    public Car fetch(ParkingTicket parkingTicket) {
+        return car;
     }
 }
