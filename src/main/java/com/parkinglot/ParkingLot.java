@@ -28,6 +28,7 @@ public class ParkingLot {
         ParkingTicket parkingTicket = new ParkingTicket();
         this.car = car;
         parkedCars.put(parkingTicket, car);
+        capacity--;
         return parkingTicket;
     }
 
@@ -41,10 +42,19 @@ public class ParkingLot {
         }
         Car fetchedCar = parkedCars.get(parkingTicket);
         parkedCars.remove(parkingTicket);
+        capacity++;
         return fetchedCar;
     }
 
     private boolean isValidTicket(ParkingTicket parkingTicket) {
         return parkedCars.get(parkingTicket) == null || !parkedCars.containsKey(parkingTicket);
+    }
+
+    public int getAvailableCapacity() {
+        return capacity;
+    }
+
+    public boolean hasAvailableCapacity() {
+        return !isFull();
     }
 }
