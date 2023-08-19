@@ -57,4 +57,8 @@ public class ParkingLot {
     public boolean hasAvailableCapacity() {
         return !isFull();
     }
+
+    public boolean hasParkedCar(ParkingTicket parkingTicket) {
+        return parkedCars.containsKey(parkingTicket);
+    }
 }

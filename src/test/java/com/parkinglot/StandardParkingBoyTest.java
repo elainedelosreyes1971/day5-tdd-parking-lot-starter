@@ -26,4 +26,18 @@ public class StandardParkingBoyTest {
         assertEquals(9, firstParkingLot.getAvailableCapacity());
         assertEquals(10, secondParkingLot.getAvailableCapacity());
     }
+    @Test
+    void should_return_parked_car_when_fetch_given_a_parking_lot_a_standard_parking_boy_and_a_ticket(){
+        //given
+        ParkingLot parkingLot = new ParkingLot();
+        StandardParkingBoy standardParkingBoy = new StandardParkingBoy(List.of(parkingLot));
+        Car car = new Car();
+        ParkingTicket parkingTicket = standardParkingBoy.park(car);
+
+        //when
+        Car fetchedCar = standardParkingBoy.fetch(parkingTicket);
+
+        //then
+        assertEquals(car, fetchedCar);
+    }
 }
