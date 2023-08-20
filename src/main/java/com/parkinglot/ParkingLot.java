@@ -51,4 +51,8 @@ public class ParkingLot {
     public boolean hasParkedCar(ParkingTicket parkingTicket) {
         return parkedCars.containsKey(parkingTicket);
     }
+
+    public double getHighestVacancyRate(){
+        return ((double) parkedCars.size() / capacity) * 100;
+    }
 }
