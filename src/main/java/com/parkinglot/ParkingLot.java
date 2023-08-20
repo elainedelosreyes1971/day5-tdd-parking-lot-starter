@@ -21,41 +21,27 @@ public class ParkingLot {
         this.capacity = capacity;
     }
 
+
+
     public ParkingTicket park(Car car) {
-        if(isFull()) {
-            throw new NoAvailablePositionException();
-        }
         ParkingTicket parkingTicket = new ParkingTicket();
         this.car = car;
         parkedCars.put(parkingTicket, car);
-        capacity--;
         return parkingTicket;
     }
 
-    private boolean isFull() {
-        return parkedCars.size() == capacity;
-    }
-
     public Car fetch(ParkingTicket parkingTicket) {
-        if (isValidTicket(parkingTicket)){
-            throw new UnrecognizedTicketException();
-        }
         Car fetchedCar = parkedCars.get(parkingTicket);
         parkedCars.remove(parkingTicket);
-        capacity++;
         return fetchedCar;
     }
 
-    private boolean isValidTicket(ParkingTicket parkingTicket) {
-        return parkedCars.get(parkingTicket) == null || !parkedCars.containsKey(parkingTicket);
-    }
-
     public int getAvailableCapacity() {
-        return capacity;
+        return capacity - parkedCars.size();
     }
 
     public boolean hasAvailableCapacity() {
-        return !isFull();
+        return !(parkedCars.size() == capacity);
     }
 
     public boolean hasParkedCar(ParkingTicket parkingTicket) {
