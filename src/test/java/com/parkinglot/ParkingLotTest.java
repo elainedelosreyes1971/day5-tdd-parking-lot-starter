@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ParkingLotTest {
 
     @Test
-    void should_return_ticket_when_park_given_parking_lot_a_car(){
+    void should_return_ticket_when_park_given_parking_lot_a_car() {
         //given
         ParkingLot parkingLot = new ParkingLot();
         Car car = new Car();
@@ -58,15 +58,15 @@ public class ParkingLotTest {
         //given
         ParkingLot parkingLot = new ParkingLot();
         Car car = new Car();
-        ParkingTicket parkingTicket = parkingLot.park(car);
+        parkingLot.park(car);
+        ParkingTicket parkingTicket = new ParkingTicket();
 
         //when
-        parkingLot.fetch(parkingTicket);
-
-        //then
         UnrecognizedTicketException unrecognizedTicketException = assertThrows(UnrecognizedTicketException.class, () -> {
             parkingLot.fetch(parkingTicket);
         });
+
+        //then
         assertEquals("Unrecognized parking ticket.", unrecognizedTicketException.getMessage());
     }
 

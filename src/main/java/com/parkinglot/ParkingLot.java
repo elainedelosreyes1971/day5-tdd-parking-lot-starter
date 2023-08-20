@@ -28,6 +28,9 @@ public class ParkingLot {
 
 
     public ParkingTicket park(Car car) {
+        if (!hasAvailableCapacity()) {
+            throw new NoAvailablePositionException();
+        }
         ParkingTicket parkingTicket = new ParkingTicket();
         this.car = car;
         parkedCars.put(parkingTicket, car);
@@ -35,6 +38,9 @@ public class ParkingLot {
     }
 
     public Car fetch(ParkingTicket parkingTicket) {
+        if (!hasParkedCar(parkingTicket)) {
+            throw new UnrecognizedTicketException();
+        }
         Car fetchedCar = parkedCars.get(parkingTicket);
         parkedCars.remove(parkingTicket);
         return fetchedCar;
@@ -52,7 +58,7 @@ public class ParkingLot {
         return parkedCars.containsKey(parkingTicket);
     }
 
-    public double getHighestVacancyRate(){
+    public double getHighestVacancyRate() {
         return ((double) parkedCars.size() / capacity) * 100;
     }
 }
