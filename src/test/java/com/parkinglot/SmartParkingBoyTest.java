@@ -4,12 +4,12 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SmartParkingBoyTest {
 
     @Test
-    void should_return_parking_lot_with_highest_empty_slot_when_park_given_a_smart_parking_boy_parking_lot_and_car(){
+    void should_return_parking_lot_with_highest_empty_slot_when_park_given_a_smart_parking_boy_parking_lot_and_car() {
         //given
         ParkingLot firstParkingLot = new ParkingLot(15);
         ParkingLot secondParkingLot = new ParkingLot();

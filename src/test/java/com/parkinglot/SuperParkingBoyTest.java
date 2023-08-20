@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class SuperParkingBoyTest {
 
     @Test
-    void should_return_parking_lot_with_highest_vacancy_rate_when_park_given_a_super_parking_boy_parking_lot_and_car(){
+    void should_return_parking_lot_with_highest_vacancy_rate_when_park_given_a_super_parking_boy_parking_lot_and_car() {
         //given
         ParkingLot firstParkingLot = new ParkingLot(10);
         ParkingLot secondParkingLot = new ParkingLot(11);
