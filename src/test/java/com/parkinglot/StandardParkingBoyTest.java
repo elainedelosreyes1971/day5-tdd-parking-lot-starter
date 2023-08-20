@@ -4,7 +4,9 @@ import com.parkinglot.exceptions.NoAvailablePositionException;
 import com.parkinglot.exceptions.UnrecognizedTicketException;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -88,7 +90,7 @@ public class StandardParkingBoyTest {
         ParkingTicket usedTicket = standardParkingBoy.park(car);
         standardParkingBoy.fetch(usedTicket);
         Car newCar = new Car();
-        ParkingTicket newTicket = standardParkingBoy.park(newCar);
+        standardParkingBoy.park(newCar);
 
         //when
         UnrecognizedTicketException unrecognizedTicketException = assertThrows(UnrecognizedTicketException.class, () -> {
@@ -118,12 +120,43 @@ public class StandardParkingBoyTest {
     }
     
     @Test
-    void should_return_second_parking_lot_when_park_given_a_standard_parking_boy_two_parking_lots_and_a_car(){
+    void should_park_to_second_parking_lot_when_park_given_a_standard_parking_boy_two_parking_lots_and_a_car(){
         //given
-
+        Map<ParkingTicket, Car> initialParkedCars = new HashMap<>();
+        initialParkedCars.put(new ParkingTicket(), new Car());
+        initialParkedCars.put(new ParkingTicket(), new Car());
+        ParkingLot firstParkingLot = new ParkingLot(2, initialParkedCars);
+        ParkingLot secondParkingLot = new ParkingLot();
+        StandardParkingBoy standardParkingBoy = new StandardParkingBoy(List.of(firstParkingLot, secondParkingLot));
+        Car car = new Car();
 
         //when
+        standardParkingBoy.park(car);
         
         //then
+        assertEquals(0, firstParkingLot.getAvailableCapacity());
+        assertEquals(9, secondParkingLot.getAvailableCapacity());
+    }
+
+    @Test
+    void should_return_right_car_when_fetch_given_a_standard_parking_boy_two_parking_lots_with_parked_car_and_two_parking_ticket(){
+        //given
+        Map<ParkingTicket, Car> initialParkedCars = new HashMap<>();
+        ParkingLot firstParkingLot = new ParkingLot(1, initialParkedCars);
+        ParkingLot secondParkingLot = new ParkingLot();
+        StandardParkingBoy standardParkingBoy = new StandardParkingBoy(List.of(firstParkingLot, secondParkingLot));
+        Car firstCar = new Car();
+        Car secondCar = new Car();
+
+        ParkingTicket firstCarTicket = standardParkingBoy.park(firstCar);
+        ParkingTicket secondCarTicket = standardParkingBoy.park(secondCar);
+
+        //when
+        Car fetchedFirstCar = standardParkingBoy.fetch(firstCarTicket);
+        Car fetchedSecondCar = standardParkingBoy.fetch(secondCarTicket);
+
+        //then
+        assertEquals(firstCar, fetchedFirstCar);
+        assertEquals(secondCar, fetchedSecondCar);
     }
 }

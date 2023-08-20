@@ -10,7 +10,7 @@ public class ParkingLot {
 
     public static final int DEFAULT_CAPACITY = 10;
     private Car car;
-    private final Map<ParkingTicket, Car> parkedCars = new HashMap<>();
+    private Map<ParkingTicket, Car> parkedCars = new HashMap<>();
     private int capacity;
 
     public ParkingLot() {
@@ -21,6 +21,10 @@ public class ParkingLot {
         this.capacity = capacity;
     }
 
+    public ParkingLot(int capacity, Map<ParkingTicket, Car> parkedCars) {
+        this.capacity = capacity;
+        this.parkedCars = parkedCars;
+    }
 
 
     public ParkingTicket park(Car car) {
